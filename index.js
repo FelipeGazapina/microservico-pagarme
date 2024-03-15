@@ -60,7 +60,13 @@ app.post("/create-card", async function (req, res) {
           "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        number: body.number,
+        holder_name: body.holder_name,
+        exp_month: body.exp_month,
+        exp_year: body.exp_year,
+        cvv: body.cvv,
+      }),
     };
     const customer_id = body.customer_id;
     let response = await fetch(
@@ -76,11 +82,51 @@ app.post("/create-card", async function (req, res) {
 
     console.log(data);
 
-    returnres.send("OK!");
+    returnres.send(data);
   } catch (err) {
     console.log(err);
     return res.status(500).send("Internal Server Error");
   }
+});
+
+app.post("/create-plan", async function (req, res) {
+  let body = req.body;
+  let dados_plan = {
+    interval: "month",
+    interval_count: 1,
+    pricing_scheme: {
+      scheme_type: "Unit",
+      price: body.price,
+      mininum_price: body.minimum_price,
+    },
+    quantity: 1,
+    name: body.name,
+    description: body.description || "",
+    payment_methods: ["credit_card"],
+    installments: [1],
+    minimum_price: body.minimum_price,
+    currency: "BRL",
+    billing_days: [10],
+  };
+  const options = {
+    method: "POST",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dados_plan),
+  };
+  let response = await fetch("https://api.pagar.me/core/v5/plans", options);
+
+  if (response.status != 200) {
+    console.log(response);
+    return res.status(response.status).send(response.statusText);
+  }
+  const data = await response.json();
+
+  console.log(data);
+  res.send(data);
 });
 
 app.get("/", function (req, res) {
