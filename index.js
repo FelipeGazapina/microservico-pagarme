@@ -68,12 +68,12 @@ app.post("/create-card", async function (req, res) {
         cvv: body.cvv,
       }),
     };
-    console.log(options, body);
+
     let response = await fetch(
       `https://api.pagar.me/core/v5/customers/${body.customer_id}/cards`,
       options,
     );
-    console.log(response.url);
+
     if (response.status != 200) {
       console.log(response);
       return res.status(response.status).send(response.statusText);
@@ -82,7 +82,7 @@ app.post("/create-card", async function (req, res) {
 
     console.log(data);
 
-    returnres.send(data);
+    return res.send(data);
   } catch (err) {
     console.log(err);
     return res.status(500).send("Internal Server Error");
@@ -127,7 +127,7 @@ app.post("/create-plan", async function (req, res) {
   const data = await response.json();
 
   console.log(data);
-  res.send(data);
+  return res.send(data);
 });
 
 app.get("/", function (req, res) {
