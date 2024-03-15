@@ -23,7 +23,7 @@ app.post('/create-client',async function (req, res) {
         const options = {
             method: 'POST',
             headers: {
-                'Authorization': 'Basic ' + Buffer.from(process.env.API_KEY_TEST).toString('base64'),
+                'Authorization': 'Basic ' + Buffer.from(process.env.API_KEY).toString('base64'),
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
