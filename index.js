@@ -176,6 +176,10 @@ app.get("/list-plan", async function (req, res) {
   res.send(data);
 });
 
+// adicionando assinatura ao cliente Rafael Motta
+// cartao do cliente
+// plano mensal
+// 49.90
 app.post("/create-subscription", async function (req, res) {
   let body = req.body;
 
@@ -186,9 +190,23 @@ app.post("/create-subscription", async function (req, res) {
         "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({}),
+    body: JSON.stringify(body),
   };
-  res.status(201);
+  const response = await fetch(
+    "https://api.pagar.me/core/v5/subscriptions",
+    options,
+  );
+
+  if (response.status != 200) {
+    console.error(response);
+    return res.send(response.statusText).status(response.status);
+  }
+
+  const data = await response.json();
+
+  console.log(data);
+
+  res.send(data).status(201);
 });
 
 app.get("/list-client", async function (req, res) {
