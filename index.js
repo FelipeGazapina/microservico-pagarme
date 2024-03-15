@@ -73,7 +73,7 @@ app.post("/create-card", async function (req, res) {
       `https://api.pagar.me/core/v5/customers/${body.customer_id}/cards`,
       options,
     );
-
+    console.log(response.url);
     if (response.status != 200) {
       console.log(response);
       return res.status(response.status).send(response.statusText);
