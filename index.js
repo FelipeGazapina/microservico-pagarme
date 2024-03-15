@@ -89,6 +89,31 @@ app.post("/create-card", async function (req, res) {
   }
 });
 
+app.get("/list-card-by-client/:customer_id", async function (req, res) {
+  const { customer_id } = req.params;
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+    },
+  };
+
+  const response = await fetch(
+    `https://api.pagar.me/core/v5/customers/${customer_id}/cards`,
+    options,
+  );
+
+  if (response.status != 200) {
+    console.error(response);
+    return res.send(response.statusText).status(response.status);
+  }
+
+  const data = await response.json();
+
+  res.send(data);
+});
+
 app.post("/create-plan", async function (req, res) {
   let body = req.body;
 
