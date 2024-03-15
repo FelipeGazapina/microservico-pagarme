@@ -43,7 +43,7 @@ app.post("/create-client", async function (req, res) {
 
     console.log(data);
 
-    returnres.send(data);
+    return res.send(data);
   } catch (err) {
     console.log(err);
     return res.status(500).send("Internal Server Error");
