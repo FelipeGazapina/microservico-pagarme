@@ -6,6 +6,7 @@ require('dotenv').config();
 const port = process.env.PORT | 3002;
 
 app.use(cors());
+app.use(express.json());
 console.log(__dirname)
 app.use(function (req, res, next) {
     if (req.headers.authorization != process.env.PASS) {
@@ -17,7 +18,7 @@ app.use(function (req, res, next) {
 
 app.post('/create-client',async function (req, res) {
     let body = req.body;
-
+    console.log(body);
     try {
 
         const options = {
@@ -33,7 +34,7 @@ app.post('/create-client',async function (req, res) {
 
         console.log(response)
         if (response.status != 200) {
-            res.status(response.status).send(response.statusText);
+            return res.status(response.status).send(response.statusText);
         }
         const data = await response.json();
 
