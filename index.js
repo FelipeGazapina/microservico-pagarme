@@ -107,7 +107,7 @@ app.post("/create-plan", async function (req, res) {
         price: body.price,
         mininum_price: body.price,
       },
-      items: [{ pricing_scheme: { scheme_type: "Unit", price: bodi.price } }],
+      items: [{ pricing_scheme: { scheme_type: "Unit", price: body.price } }],
       quantity: 1,
       name: body.name,
       description: body.description || "",
