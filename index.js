@@ -91,23 +91,7 @@ app.post("/create-card", async function (req, res) {
 
 app.post("/create-plan", async function (req, res) {
   let body = req.body;
-  let dados_plan = {
-    interval: "month",
-    interval_count: 1,
-    pricing_scheme: {
-      scheme_type: "Unit",
-      price: body.price,
-      mininum_price: body.minimum_price,
-    },
-    quantity: 1,
-    name: body.name,
-    description: body.description || "",
-    payment_methods: ["credit_card"],
-    installments: [1],
-    minimum_price: body.minimum_price,
-    currency: "BRL",
-    billing_days: [10],
-  };
+
   const options = {
     method: "POST",
     headers: {
@@ -115,10 +99,26 @@ app.post("/create-plan", async function (req, res) {
         "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(dados_plan),
+    body: JSON.stringify({
+      interval: "month",
+      interval_count: 1,
+      pricing_scheme: {
+        scheme_type: "Unit",
+        price: body.price,
+        mininum_price: body.minimum_price,
+      },
+      quantity: 1,
+      name: body.name,
+      description: body.description || "",
+      payment_methods: ["credit_card"],
+      installments: [1],
+      minimum_price: body.minimum_price,
+      currency: "BRL",
+      billing_days: [10],
+    }),
   };
   let response = await fetch("https://api.pagar.me/core/v5/plans", options);
-
+  console.log(options);
   if (response.status != 200) {
     console.log(response);
     return res.status(response.status).send(response.statusText);
