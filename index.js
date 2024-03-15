@@ -75,7 +75,7 @@ app.post("/create-card", async function (req, res) {
     );
 
     if (response.status != 200) {
-      console.log(response);
+      console.log(response.body);
       return res.status(response.status).send(response.statusText);
     }
     const data = await response.json();
