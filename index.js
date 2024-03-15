@@ -216,6 +216,9 @@ app.delete("/delete-subscription/:subscription_id", async function (req, res) {
       Authorization:
         "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
     },
+    body: JSON.stringify({
+      cancel_pending_invoices: true,
+    }),
   };
 
   const response = await fetch(
