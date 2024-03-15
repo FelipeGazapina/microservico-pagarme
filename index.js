@@ -130,6 +130,45 @@ app.post("/create-plan", async function (req, res) {
   return res.send(data);
 });
 
+app.post("/create-subscription", async function (req, res) {
+  let body = req.body;
+
+  const options = {
+    method: "POST",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({}),
+  };
+  res.status(201);
+});
+
+app.get("/list-client", async function (req, res) {
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+    },
+  };
+
+  const response = await fetch(
+    "https://api.pagar.me/core/v5/customers",
+    options,
+  );
+
+  if (response.status != 200) {
+    console.error(response);
+    return res.send(response.statusText).status(response.status);
+  }
+
+  const data = await response.json();
+
+  res.send(data);
+});
+
 app.get("/", function (req, res) {
   res.send("OK!");
 });
