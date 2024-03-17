@@ -194,7 +194,7 @@ app.put("/edit/plan/:plan_id", async function (req, res) {
   )
     .then(async (response) => {
       if (response.status != 200) {
-        console.error(response);
+        console.error(await response.json());
         return res.send(response.statusText).status(response.status);
       }
 
