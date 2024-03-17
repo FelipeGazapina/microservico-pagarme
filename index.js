@@ -12,7 +12,7 @@ app.use(function (req, res, next) {
   if (req.headers.authorization != process.env.PASS) {
     res.status(403).send("Unauthorized");
   }
-
+  console.log("request passed");
   next();
 });
 
