@@ -193,7 +193,7 @@ app.put("/edit/plan/:plan_id", async function (req, res) {
     options,
   )
     .then(async (response) => {
-      if (response.status != 200) {
+      if (response.status != 200 && response.status != 500) {
         console.error(await response.json());
         return res.send(response.statusText).status(response.status);
       }
@@ -239,6 +239,30 @@ app.post("/create-subscription", async function (req, res) {
   console.log(data);
 
   res.send(data).status(201);
+});
+
+app.get("/list/subscription/:customer_id", async function (req, res) {
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+    },
+  };
+
+  const response = await fetch(
+    `https://api.pagar.me/core/v5/subscriptions?customer_id=${req.params.customer_id}`,
+    options,
+  );
+
+  if (response.status != 200) {
+    console.error(response);
+    return res.send(response.statusText).status(response.status);
+  }
+
+  const data = await response.json();
+
+  res.send(data);
 });
 
 app.delete("/delete-subscription/:subscription_id", async function (req, res) {
