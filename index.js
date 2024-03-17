@@ -176,6 +176,33 @@ app.get("/list-plan", async function (req, res) {
   res.send(data);
 });
 
+app.put("/edit/plan?:plan_id", async function (req, res) {
+  const body = req.body;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+    },
+    body: JSON.stringify(body),
+  };
+
+  const response = await fetch(
+    `https://api.pagar.me/core/v5/plans/${req.params.plan_id}`,
+    options,
+  );
+
+  if (response.status != 200) {
+    console.error(response);
+    return res.send(response.statusText).status(response.status);
+  }
+
+  const data = await response.json();
+
+  res.send(data);
+});
+
 // adicionando assinatura ao cliente Rafael Motta
 // cartao do cliente
 // plano mensal
