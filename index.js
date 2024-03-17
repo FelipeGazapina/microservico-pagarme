@@ -265,7 +265,7 @@ app.get("/list/subscription/:customer_id", async function (req, res) {
   res.send(data);
 });
 
-app.delete("/delete-subscription/:subscription_id", async function (req, res) {
+app.delete("/subscription/:subscription_id", async function (req, res) {
   const options = {
     method: "DELETE",
     headers: {
