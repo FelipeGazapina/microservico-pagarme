@@ -37,7 +37,7 @@ app.post("/create-client", async function (req, res) {
 
     if (response.status != 200) {
       console.log(response);
-      return res.status(response.status).send(response.statusText);
+      return res.status(response.status).send(await response.json());
     }
     const data = await response.json();
 
