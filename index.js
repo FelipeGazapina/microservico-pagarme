@@ -178,7 +178,7 @@ app.get("/list-plan", async function (req, res) {
 
 app.put("/edit/plan/:plan_id", async function (req, res) {
   const body = req.body;
-  console.log(body);
+
   const options = {
     method: "PUT",
     headers: {
@@ -192,6 +192,8 @@ app.put("/edit/plan/:plan_id", async function (req, res) {
     `https://api.pagar.me/core/v5/plans/${req.params.plan_id}`,
     options,
   );
+
+  console.log(response.body);
 
   if (response.status != 200) {
     console.error(response);
