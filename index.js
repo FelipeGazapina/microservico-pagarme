@@ -188,21 +188,24 @@ app.put("/edit/plan/:plan_id", async function (req, res) {
     body: JSON.stringify(body),
   };
 
-  const response = await fetch(
+  await fetch(
     `https://api.pagar.me/core/v5/plans/${req.params.plan_id}`,
     options,
-  );
+  )
+    .then(async (response) => {
+      if (response.status != 200) {
+        console.error(response);
+        return res.send(response.statusText).status(response.status);
+      }
 
-  console.log(response.body);
+      const data = await response.json();
 
-  if (response.status != 200) {
-    console.error(response);
-    return res.send(response.statusText).status(response.status);
-  }
-
-  const data = await response.json();
-
-  res.send(data);
+      return res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.send(err.message);
+    });
 });
 
 // adicionando assinatura ao cliente Rafael Motta
