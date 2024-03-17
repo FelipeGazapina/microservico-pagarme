@@ -278,7 +278,7 @@ app.delete("/subscription/:subscription_id", async function (req, res) {
   };
 
   const response = await fetch(
-    `https://api.pagar.me/core/v5/subscriptions/${subscription_id}`,
+    `https://api.pagar.me/core/v5/subscriptions/${req.params.subscription_id}`,
     options,
   );
 
