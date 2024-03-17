@@ -76,7 +76,7 @@ app.post("/create-card", async function (req, res) {
 
     if (response.status != 200) {
       console.log(response);
-      return res.status(response.status).send(response.statusText);
+      return res.status(response.status).send(await response.json());
     }
     const data = await response.json();
 
@@ -231,7 +231,7 @@ app.post("/create-subscription", async function (req, res) {
 
   if (response.status != 200) {
     console.error(response);
-    return res.send(response.statusText).status(response.status);
+    return res.send(response.statusText).status(await response.json());
   }
 
   const data = await response.json();
