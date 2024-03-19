@@ -52,6 +52,7 @@ app.post("/create-client", async function (req, res) {
 
 app.post("/create-card", async function (req, res) {
   let body = req.body;
+  console.log(body);
   const dados = {
     number: body.number,
     holder_name: body.holder_name,
