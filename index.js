@@ -75,7 +75,7 @@ app.post("/create-card", async function (req, res) {
         },
       }),
     };
-
+    console.log(options);
     let response = await fetch(
       `https://api.pagar.me/core/v5/customers/${body.customer_id}/cards`,
       options,
