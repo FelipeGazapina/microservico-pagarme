@@ -64,7 +64,13 @@ app.post("/create-card", async function (req, res) {
     exp_month: body.exp_month,
     exp_year: body.exp_year,
     cvv: body.cvv,
-    billing_address: body.billing_address,
+    billing_address: {
+      line_1: body.billing_address.line_1 || "Rua rio de janeiro, 93",
+      zip_code: body.billing_address.zipcode,
+      city: body.billing_address.city,
+      state: body.billing_address.state,
+      country: body.billing_address.country,
+    },
   };
   try {
     const options = {
