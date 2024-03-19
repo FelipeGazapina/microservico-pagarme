@@ -188,6 +188,7 @@ app.put("/edit/plan/:plan_id/:item_id", async function (req, res) {
     body: JSON.stringify(body),
   };
   let url = `https://api.pagar.me/core/v5/plans/${req.params.plan_id}/items/${req.params.item_id}`;
+  console.log(url);
   await fetch(url, options)
     .then(async (response) => {
       if (response.status != 200 && response.status != 500) {
