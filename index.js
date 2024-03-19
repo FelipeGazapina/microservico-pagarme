@@ -52,6 +52,20 @@ app.post("/create-client", async function (req, res) {
 
 app.post("/create-card", async function (req, res) {
   let body = req.body;
+  const dados = {
+    number: body.number,
+    holder_name: body.holder_name,
+    exp_month: body.exp_month,
+    exp_year: body.exp_year,
+    cvv: body.cvv,
+    billing_address: {
+      line_1: body.line_1,
+      zipcode: body.zipcode,
+      city: body.city,
+      state: body.state,
+      country: body.country,
+    },
+  };
   try {
     const options = {
       method: "POST",
@@ -60,20 +74,7 @@ app.post("/create-card", async function (req, res) {
           "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        number: body.number,
-        holder_name: body.holder_name,
-        exp_month: body.exp_month,
-        exp_year: body.exp_year,
-        cvv: body.cvv,
-        billing_address: {
-          line_1: body.line_1,
-          zipcode: body.zipcode,
-          city: body.city,
-          state: body.state,
-          country: body.country,
-        },
-      }),
+      body: JSON.stringify(dados),
     };
     console.log(options);
     let response = await fetch(
