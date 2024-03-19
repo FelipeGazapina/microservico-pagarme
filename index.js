@@ -52,6 +52,10 @@ app.post("/create-client", async function (req, res) {
 
 app.post("/create-card", async function (req, res) {
   let body = req.body;
+
+  if(!body){
+    return res.send("Nothing on body").status(503)
+  }
   console.log(body);
   const dados = {
     number: body.number,
@@ -59,13 +63,7 @@ app.post("/create-card", async function (req, res) {
     exp_month: body.exp_month,
     exp_year: body.exp_year,
     cvv: body.cvv,
-    billing_address: {
-      line_1: body.billing_address.line_1 || "Rua rio de janeiro, 93",
-      zip_code: body.billing_address.zipcode,
-      city: body.billing_address.city,
-      state: body.billing_address.state,
-      country: body.billing_address.country,
-    },
+    billing_address: body.billing_address,
   };
   try {
     const options = {
