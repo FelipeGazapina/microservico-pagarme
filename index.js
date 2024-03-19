@@ -66,6 +66,13 @@ app.post("/create-card", async function (req, res) {
         exp_month: body.exp_month,
         exp_year: body.exp_year,
         cvv: body.cvv,
+        billing_address: {
+          line_1: body.endereco,
+          zipcode: body.cep,
+          city: body.cidade,
+          state: body.estados,
+          country: body.country,
+        },
       }),
     };
 
