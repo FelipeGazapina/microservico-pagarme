@@ -176,6 +176,39 @@ app.get("/list-plan", async function (req, res) {
   res.send(data);
 });
 
+app.put("/edit/plan/:plan_id/:item_id", async function (req, res) {
+  const body = req.body;
+
+  const options = {
+    method: "PUT",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+    },
+    body: JSON.stringify(body),
+  };
+
+  await fetch(
+    `
+    https://api.pagar.me/core/v5/plans/${req.params.plan_id}/items/${req.params.item_id}`,
+    options,
+  )
+    .then(async (response) => {
+      if (response.status != 200 && response.status != 500) {
+        console.error(await response.json());
+        return res.send(response.statusText).status(response.status);
+      }
+
+      const data = await response.json();
+
+      return res.send(data);
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.send(err.message);
+    });
+});
+
 app.put("/edit/plan/:plan_id", async function (req, res) {
   const body = req.body;
 
