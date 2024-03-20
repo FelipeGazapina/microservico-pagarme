@@ -67,35 +67,30 @@ app.post("/create-card", async function (req, res) {
     cvv: body.cvv,
     billing_address: body.billing_address,
   };
-  try {
-    const options = {
-      method: "POST",
-      headers: {
-        Authorization:
-          "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dados),
-    };
-    console.log(options);
-    let response = await fetch(
-      `https://api.pagar.me/core/v5/customers/${body.customer_id}/cards`,
-      options,
-    );
+  const options = {
+    method: "POST",
+    headers: {
+      Authorization:
+        "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dados),
+  };
 
-    if (response.status != 200) {
-      console.log(response);
-      return res.status(response.status).send(await response.json());
-    }
-    const data = await response.json();
+  let response = await fetch(
+    `https://api.pagar.me/core/v5/customers/${body.customer_id}/cards`,
+    options,
+  );
 
-    console.log(data);
-
-    return res.send(data);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).send("Internal Server Error");
+  if (response.status != 200) {
+    console.log(await response.json());
+    return res.status(response.status).send(await response.json());
   }
+  const data = await response.json();
+
+  console.log(data);
+
+  return res.send(data);
 });
 
 app.get("/list-card-by-client/:customer_id", async function (req, res) {
@@ -269,7 +264,7 @@ app.post("/create-subscription", async function (req, res) {
   );
 
   if (response.status != 200) {
-    console.error(response);
+    console.error(await response.json());
     return res.send(response.statusText).status(await response.json());
   }
 
