@@ -54,7 +54,7 @@ app.post("/create-card", async function (req, res) {
   let body = req.body;
   console.log(req.body);
 
-  if (!body == {}) {
+  if (body == {}) {
     return res.send("Nothing on body").status(503);
   }
 
