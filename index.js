@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 
 app.post("/create-client", async function (req, res) {
   let body = req.body;
-
+  console.log("BODY CREATE CLIENT: ", body)
   try {
     const options = {
       method: "POST",
@@ -36,7 +36,7 @@ app.post("/create-client", async function (req, res) {
     );
 
     if (response.status != 200) {
-      console.log(response);
+      console.log(await response.json());
       return res.status(response.status).send(await response.json());
     }
     const data = await response.json();
