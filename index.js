@@ -351,7 +351,7 @@ app.get("/list-client", async function (req, res) {
 
 app.post("/pedido/pix", async function (req, res) {
     const body = req.body;
-    
+    console.log(body)
     const options = {
         method: "POST",
         headers: {
