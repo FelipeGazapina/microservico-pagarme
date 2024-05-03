@@ -359,7 +359,7 @@ app.post("/pedido/pix", async function (req, res) {
             "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
         "Content-Type": "application/json",
         },
-        body: body,
+        body: JSON.stringify(body),
     };
     
     const response = await fetch(
