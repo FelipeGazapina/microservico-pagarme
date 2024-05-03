@@ -366,7 +366,8 @@ app.post("/pedido/pix", async function (req, res) {
         "https://api.pagar.me/core/v5/orders",
         options,
     );
-    
+    let response_data = await response.json();
+    console.log(response_data)
     if (response.status != 200) {
         console.error(response);
         return res.send(response.statusText).status(response.status);
