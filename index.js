@@ -351,8 +351,9 @@ app.get("/list-client", async function (req, res) {
 
 app.post("/pedido/pix", async function (req, res) {
     const body = req.body;
-    console.log(body)
-    const options = {
+    
+    try {
+      const options = {
         method: "POST",
         headers: {
         Authorization:
@@ -360,22 +361,18 @@ app.post("/pedido/pix", async function (req, res) {
         "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
-    };
-    
-    const response = await fetch(
-        "https://api.pagar.me/core/v5/orders",
-        options,
-    );
-    let response_data = await response.json();
-    console.log(response_data)
-    if (response.status != 200) {
-        console.error(response);
-        return res.send(response.statusText).status(response.status);
+      };
+      
+      const response = await fetch(
+          "https://api.pagar.me/core/v5/orders",
+          options,
+      );
+      let response_data = await response.json();
+      
+      return res.send(response_data).status(response.status);
+    } catch (error) {
+      res.send(error).status(500)
     }
-    
-    const data = await response.json();
-    
-    res.send(data);
 })
 
 app.get("/", function (req, res) {
