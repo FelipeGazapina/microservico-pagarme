@@ -375,6 +375,26 @@ app.post("/pedido/pix", async function (req, res) {
     }
 })
 
+app.get('/pix/:charge_id', async function (req, res) {
+    const { charge_id } = req.params;
+    try {
+      const options = {
+        method: "GET",
+        headers: {
+          Authorization: "Basic " + Buffer.from(process.env.API_KEY).toString("base64"),
+        },
+      };
+      const response = await fetch(
+        `https://api.pagar.me/core/v5/charges/${charge_id}`,
+        options,
+      );
+      let response_data = await response.json();
+      return res.send(response_data).status(response.status);
+    } catch (error) {
+      res.send(error).status(500)
+    }
+})
+
 app.get("/", function (req, res) {
   res.send("OK!");
 });
